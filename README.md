@@ -72,6 +72,10 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 
     npm test
 
+## Author
+
+- [github/iwamatsu0430](https://github.com/iwamatsu0430)
+
 ## License
 
 MIT © iwamatsu0430
