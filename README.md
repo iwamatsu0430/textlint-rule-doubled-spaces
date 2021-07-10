@@ -2,6 +2,22 @@
 
 textlint for check doubled spaces in sentence.
 
+## Example
+
+OK:
+
+```
+Apple Pen
+Pen Pineapple Apple Pen
+```
+
+NG:
+
+```
+Apple  Pen
+Pen  Pineapple   Apple  Pen
+```
+
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
@@ -26,6 +42,22 @@ Via CLI
 textlint --rule doubled-spaces README.md
 ```
 
+## Options
+
+- `allow`: `string[]`
+  - word to ignore
+  - default: `[]`
+  - support RegExp string
+    - e.g. `/RegExp/`
+
+```
+{
+  options: [
+    "/RegExp/"
+  ]
+}
+```
+
 ### Build
 
 Builds source codes for publish to the `lib` folder.
@@ -42,4 +74,4 @@ Test textlint rule by [textlint-tester](https://github.com/textlint/textlint-tes
 
 ## License
 
-ISC © iwamatsu0430
+MIT © iwamatsu0430

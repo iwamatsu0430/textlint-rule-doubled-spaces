@@ -23,5 +23,8 @@
     "test": "test"
   },
   "author": "iwamatsu0430",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {
+    "@textlint/regexp-string-matcher": "^1.1.0"
+  }
 }

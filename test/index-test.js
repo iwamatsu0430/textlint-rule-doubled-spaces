@@ -1,44 +1,73 @@
 "use strict";
 import TextLintTester from "textlint-tester";
 const tester = new TextLintTester();
-// rule
 import rule from "../src/index";
-// ruleName, rule, { valid, invalid }
+
+const errorMessage = "Found doubled spaces.";
+
 tester.run("rule", rule, {
-    valid: [
-        // no problem
-        "text"
-    ],
-    invalid: [
-        // single match
+  valid: [
+    "Apple Pen",
+    "Pen Pineapple Apple Pen",
+  ],
+  invalid: [
+    {
+      text: "Apple  pen",
+      errors: [
         {
-            text: "It is bugs.",
-            errors: [
-                {
-                    message: "Found bugs.",
-                    line: 1,
-                    column: 7
-                }
-            ]
+          message: errorMessage,
+          line: 1,
+          column: 6
         },
-        // multiple match
+      ]
+    },
+    {
+      text: "Pen   Pineapple",
+      errors: [
         {
-            text: `It has many bugs.
-
-One more bugs`,
-            errors: [
-                {
-                    message: "Found bugs.",
-                    line: 1,
-                    column: 13
-                },
-                {
-                    message: "Found bugs.",
-                    line: 3,
-                    column: 10
-                }
-            ]
+          message: errorMessage,
+          line: 1,
+          column: 4
         },
-
-    ]
+      ]
+    },
+    {
+      text: "Pen  Pineapple   Apple  Pen",
+      errors: [
+        {
+          message: errorMessage,
+          line: 1,
+          column: 4
+        },
+        {
+          message: errorMessage,
+          line: 1,
+          column: 15
+        },
+        {
+          message: errorMessage,
+          line: 1,
+          column: 23
+        },
+      ]
+    },
+    {
+      text: "Pen  Pineapple   Apple  Pen",
+      options: {
+        allow: ["Pineapple   Apple"],
+      },
+      errors: [
+        {
+          message: errorMessage,
+          line: 1,
+          column: 4
+        },
+        {
+          message: errorMessage,
+          line: 1,
+          column: 23
+        },
+      ]
+    },
+  ]
 });
