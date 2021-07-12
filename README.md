@@ -55,7 +55,7 @@ textlint --rule doubled-spaces README.md
 
 ```
 {
-  options: [
+  allow: [
     "/RegExp/"
   ]
 }
