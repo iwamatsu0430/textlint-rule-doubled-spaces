@@ -26,6 +26,6 @@
   "author": "iwamatsu0430",
   "license": "MIT",
   "dependencies": {
-    "@textlint/regexp-string-matcher": "^1.1.0"
+    "@textlint/regexp-string-matcher": "^2.0.1"
   }
 }
