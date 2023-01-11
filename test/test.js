@@ -5,7 +5,7 @@ import rule from "../src/index";
 
 const errorMessage = "Found doubled spaces.";
 
-tester.run("rule", rule, {
+tester.run("trim", rule, {
   valid: [
     "Apple Pen",
     "Pen Pineapple Apple Pen",
@@ -66,6 +66,40 @@ tester.run("rule", rule, {
           message: errorMessage,
           line: 1,
           column: 23
+        },
+      ]
+    },
+  ]
+});
+
+tester.run("allow option", rule, {
+  valid: [
+    { // single pattern
+      text: "Apple  pen",
+      options: {
+        allow: [
+          "/Apple  pen/"
+        ]
+      }
+    },
+    { // multiple patterns
+      text: "Apple  pen",
+      options: {
+        allow: [
+          "/Apple  pen/",
+          "/Pineapple  Apple/",
+        ]
+      }
+    },
+  ],
+  invalid: [
+    {
+      text: "Apple  pen",
+      errors: [
+        {
+          message: errorMessage,
+          line: 1,
+          column: 6
         },
       ]
     },

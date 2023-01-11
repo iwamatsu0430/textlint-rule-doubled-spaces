@@ -1,0 +1,10 @@
+{
+  "filters": {},
+  "rules": {
+    "doubled-spaces": {
+      "allow": [
+        "/Pen   Pineapple/"
+      ]
+    }
+  }
+}
