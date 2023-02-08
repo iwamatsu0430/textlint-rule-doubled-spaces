@@ -16,7 +16,7 @@
   "devDependencies": {
     "prettier": "^2.6.2",
     "textlint-scripts": "^13.0.5",
-    "textlint-tester": "^12.0.2"
+    "textlint-tester": "^13.2.0"
   },
   "name": "textlint-rule-doubled-spaces",
   "description": "textlint for check doubled spaces in sentence.",
