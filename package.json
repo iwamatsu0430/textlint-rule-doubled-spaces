@@ -27,5 +27,8 @@
   "license": "MIT",
   "dependencies": {
     "@textlint/regexp-string-matcher": "^2.0.1"
+  },
+  "peerDependencies": {
+    "textlint": ">= 5.5.0"
   }
 }
