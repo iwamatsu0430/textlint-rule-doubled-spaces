@@ -4,8 +4,8 @@ const defaultOptions = {
   allow: [],
 };
 
-export default function (context, options = {}) {
-  const { Syntax, RuleError, report, getSource } = context;
+const reporter = (context, options = {}) => {
+  const { Syntax, RuleError, report, getSource, fixer } = context;
   const allow = options.allow ?? defaultOptions.allow;
   return {
     [Syntax.Str](node) {
@@ -19,12 +19,18 @@ export default function (context, options = {}) {
           (m) => m.startIndex < matches.index && matches.index < m.endIndex
         );
         if (!isAllow) {
+          const replace = fixer.replaceTextRange([matches.index, matches.index + matches[0].length], " ");
           report(
             node,
-            new RuleError("Found doubled spaces.", { index: matches.index })
+            new RuleError("Found doubled spaces.", {index: matches.index, fix: replace})
           );
         }
       }
     },
   };
-}
+};
+
+export default {
+  linter: reporter,
+  fixer: reporter,
+};
