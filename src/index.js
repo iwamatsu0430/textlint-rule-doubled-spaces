@@ -5,7 +5,7 @@ const defaultOptions = {
 };
 
 export default function (context, options = {}) {
-  const { Syntax, RuleError, report, getSource } = context;
+  const { Syntax, RuleError, report, getSource, fixer } = context;
   const allow = options.allow ?? defaultOptions.allow;
   return {
     [Syntax.Str](node) {
@@ -21,7 +21,10 @@ export default function (context, options = {}) {
         if (!isAllow) {
           report(
             node,
-            new RuleError("Found doubled spaces.", { index: matches.index })
+            new RuleError("Found doubled spaces.", {
+              index: matches.index,
+              fix: fixer.replaceTextRange([matches.index, matches.index + matches[0].length], " "),
+            })
           );
         }
       }
