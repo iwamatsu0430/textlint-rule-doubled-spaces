@@ -4,7 +4,7 @@ const defaultOptions = {
   allow: [],
 };
 
-export default function (context, options = {}) {
+const reporter = (context, options = {}) => {
   const { Syntax, RuleError, report, getSource, fixer } = context;
   const allow = options.allow ?? defaultOptions.allow;
   return {
@@ -30,4 +30,9 @@ export default function (context, options = {}) {
       }
     },
   };
-}
+};
+
+export default {
+  linter: reporter,
+  fixer: reporter,
+};

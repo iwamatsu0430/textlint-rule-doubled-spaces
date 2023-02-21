@@ -2,6 +2,7 @@
 
 ![Node.js CI](https://github.com/iwamatsu0430/textlint-rule-doubled-spaces/actions/workflows/node.js.yml/badge.svg)
 [![npm version](https://badge.fury.io/js/textlint-rule-doubled-spaces.svg)](https://badge.fury.io/js/textlint-rule-doubled-spaces)
+[![textlint rule](https://img.shields.io/badge/textlint-fixable-green.svg?style=social)](https://textlint.github.io/)
 
 textlint rule for check doubled spaces in sentence.
 
