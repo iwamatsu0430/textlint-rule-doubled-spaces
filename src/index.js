@@ -19,12 +19,10 @@ const reporter = (context, options = {}) => {
           (m) => m.startIndex < matches.index && matches.index < m.endIndex
         );
         if (!isAllow) {
+          const replace = fixer.replaceTextRange([matches.index, matches.index + matches[0].length], " ");
           report(
             node,
-            new RuleError("Found doubled spaces.", {
-              index: matches.index,
-              fix: fixer.replaceTextRange([matches.index, matches.index + matches[0].length], " "),
-            })
+            new RuleError("Found doubled spaces.", {index: matches.index, fix: replace})
           );
         }
       }
