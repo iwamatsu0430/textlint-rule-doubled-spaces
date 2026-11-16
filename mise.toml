@@ -1,0 +1,41 @@
+# Toolchain and tasks. Run `mise install`, then `mise tasks` to list tasks.
+
+[tools]
+node = "24"
+
+[tasks.install]
+description = "Install dependencies from package-lock.json"
+run = "npm ci --no-audit --no-fund"
+
+[tasks.build]
+description = "Build src/ into lib/"
+depends = ["install"]
+run = "npm run build"
+
+[tasks.test]
+description = "Run the rule's tests"
+depends = ["install"]
+run = "npm test"
+
+[tasks.example]
+description = "Lint example/README.md with the built rule and check that it reports the one expected error"
+depends = ["build"]
+dir = "example"
+run = [
+  "npm ci --no-audit --no-fund",
+  '''
+npx textlint --format json README.md | node -e '
+  const messages = JSON.parse(require("fs").readFileSync(0, "utf8")).flatMap((result) => result.messages);
+  const ok = messages.length === 1 && messages[0].ruleId === "doubled-spaces" && messages[0].line === 9;
+  if (!ok) {
+    console.error("example: expected one doubled-spaces error on line 9, got:", JSON.stringify(messages, null, 2));
+    process.exit(1);
+  }
+  console.log("example: reported the one expected error");
+'
+''',
+]
+
+[tasks.ci]
+description = "What CI runs: build, tests and the example check"
+depends = ["build", "test", "example"]
