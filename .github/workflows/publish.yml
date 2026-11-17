@@ -1,20 +1,42 @@
 name: Publish Package to npmjs
+
+# Publishing a GitHub release (tag vX.Y.Z, matching package.json) publishes the
+# package to npm. npm trusts this workflow through trusted publishing (OIDC), so
+# no npm token is stored in the repository, and npm adds a provenance statement.
+
 on:
   release:
-    types: [created]
+    types: [published]
+
 permissions:
   contents: read
+
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
       - uses: actions/checkout@v7
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '18.x'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm publish
+      - uses: jdx/mise-action@v5
+
+      - name: Check the tag and the npm version
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version="$(node -p 'require("./package.json").version')"
+          if [ "$TAG" != "v$version" ]; then
+            echo "the tag $TAG does not match package.json ($version)"
+            exit 1
+          fi
+          # Trusted publishing needs npm 11.5.1 or later.
+          node -e 'const [a, b, c] = process.argv[1].split(".").map(Number); process.exit(a > 11 || (a === 11 && (b > 5 || (b === 5 && c >= 1))) ? 0 : 1)' "$(npm --version)" \
+            || { echo "npm $(npm --version) is too old for trusted publishing"; exit 1; }
+
+      - name: build, test, example check
+        run: mise run ci
+
+      - name: Publish to npm
+        run: npm publish
