@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "textlint": "^13.3.0",
+    "textlint": "^14.8.4",
     "textlint-rule-doubled-spaces": "file:.."
   }
 }
