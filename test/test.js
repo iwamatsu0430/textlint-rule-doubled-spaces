@@ -72,6 +72,40 @@ tester.run("trim", rule, {
   ]
 });
 
+tester.run("line breaks", rule, {
+  valid: [
+    "Line one.\nLine two.",
+    "Line one.\r\nLine two.", // CRLF is a line break, not two spaces
+    "> [!NOTE]\r\n> Text.",
+    "- item one\n  continued item", // indentation of a continued line
+    "- item one\r\n  continued item",
+  ],
+  invalid: [
+    {
+      text: "Line one.\r\nLine  two.",
+      output: "Line one.\r\nLine two.", // the fix keeps the line break
+      errors: [
+        {
+          message: errorMessage,
+          line: 2,
+          column: 5
+        },
+      ]
+    },
+    {
+      text: "- item one\r\n  continued  item",
+      output: "- item one\r\n  continued item",
+      errors: [
+        {
+          message: errorMessage,
+          line: 2,
+          column: 12
+        },
+      ]
+    },
+  ]
+});
+
 tester.run("allow option", rule, {
   valid: [
     { // single pattern
