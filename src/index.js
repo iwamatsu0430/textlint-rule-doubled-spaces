@@ -11,7 +11,9 @@ const reporter = (context, options = {}) => {
     [Syntax.Str](node) {
       const text = getSource(node);
       const allowMatch = matchPatterns(text, allow);
-      const regex = /\s{2,}/g;
+      // Line breaks are not spaces: "\r\n" must not count as two, and the
+      // indentation of a continued line is not a doubled space either.
+      const regex = /(?<=\S)[^\S\r\n\u2028\u2029]{2,}/g;
       while (true) {
         const matches = regex.exec(text);
         if (!matches) break;
