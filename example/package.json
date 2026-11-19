@@ -11,5 +11,10 @@
   "devDependencies": {
     "textlint": "^14.8.4",
     "textlint-rule-doubled-spaces": "file:.."
+  },
+  "overrides": {
+    "glob": {
+      "minimatch": "11.0.1"
+    }
   }
 }
