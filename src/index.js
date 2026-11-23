@@ -13,7 +13,9 @@ const reporter = (context, options = {}) => {
       const allowMatch = matchPatterns(text, allow);
       // Line breaks are not spaces: "\r\n" must not count as two, and the
       // indentation of a continued line is not a doubled space either.
-      const regex = /(?<=\S)[^\S\r\n\u2028\u2029]{2,}/g;
+      // A run at the very start of the node still counts: it follows inline
+      // code, a link or emphasis ("`code`  text").
+      const regex = /(?<=^|\S)[^\S\r\n\u2028\u2029]{2,}/g;
       while (true) {
         const matches = regex.exec(text);
         if (!matches) break;
