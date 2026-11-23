@@ -106,6 +106,31 @@ tester.run("line breaks", rule, {
   ]
 });
 
+tester.run("after inline nodes", rule, {
+  valid: [
+    "foo `code` bar",
+    "[link](https://example.com) text",
+    "**bold** text",
+  ],
+  invalid: [
+    {
+      text: "foo `code`  bar", // the text node after the code starts with the spaces
+      output: "foo `code` bar",
+      errors: [{ message: errorMessage, line: 1, column: 11 }]
+    },
+    {
+      text: "[link](https://example.com)  text",
+      output: "[link](https://example.com) text",
+      errors: [{ message: errorMessage, line: 1, column: 28 }]
+    },
+    {
+      text: "**bold**  text",
+      output: "**bold** text",
+      errors: [{ message: errorMessage, line: 1, column: 9 }]
+    },
+  ]
+});
+
 tester.run("allow option", rule, {
   valid: [
     { // single pattern
